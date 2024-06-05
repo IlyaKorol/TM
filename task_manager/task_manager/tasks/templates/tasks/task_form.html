@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card border-primary">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">{% if form.instance.pk %}Изменить задачу{% else %}Создать задачу{% endif %}</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        {% if form.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                <strong>Ошибка!</strong> Пожалуйста, исправьте следующие ошибки:
+                                <ul>
+                                    {% for field, errors in form.errors.items %}
+                                        {% for error in errors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Заголовок:</label>
+                            {{ form.title }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Описание:</label>
+                            {{ form.description }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="priority" class="form-label">Приоритет:</label>
+                            {{ form.priority }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="due_date" class="form-label">Срок выполнения:</label>
+                            {{ form.due_date }}
+                        </div>
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

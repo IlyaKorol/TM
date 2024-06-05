@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Favorite Tasks</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Created_at</th>
+            <th>Priority</th>
+            <th>Due Date</th>
+            <th>Completed</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for favorite in favorite_tasks %}
+            <tr>
+                <td>{{ favorite.task.title }}</td>
+                <td>{{ favorite.task.description }}</td>
+                <td>{{ favorite.task.created_at}}</td>
+                <td>{{ favorite.task.priority }}</td>
+                <td>{{ favorite.task.due_date }}</td>
+                <td>{{ favorite.task.completed }}</td>
+                <td>
+                    <a href="{% url 'task_detail' favorite.task.pk %}" class="btn btn-info">View</a>
+                    <a href="{% url 'task_update' favorite.task.pk %}" class="btn btn-warning">Edit</a>
+                    <a href="{% url 'task_delete' favorite.task.pk %}" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
