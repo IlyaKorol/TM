@@ -26,28 +26,40 @@ Task Manager - это веб-приложение для управления з
 
 2. Перейдите в директорию проекта:
 
-```cd task_manager```
+```cd tm``` -> ```cd task_manager``` -> ```cd task_manager``` 
 
 3. Установите виртуальное окружение:
 
 
-```python -m venv venv```
+```python3 -m venv [имя_окружения]```, например ```python3 -m venv myenv``` 
 
 4. Активируйте виртуальное окружение:
 
 - На Windows:
 
-```venv\Scripts\activate```
+```myenv\Scripts\activate```
 
 - На macOS/Linux:
 
-```source venv/bin/activate```
+```source myenv/bin/activate```
 
 5. Установите зависимости:
 
 ```pip install -r requirements.txt```
 
 6. Настройте базу данных в файле settings.py.
+
+6.1. Установите базу данных:
+
+```pip install mysqlclient```
+
+Примените миграции. Если после этого не удалось настроить базу данных, тогда следуйте следующем алгоритму:
+
+- ```pip install mysql-connector-python```
+
+- зайдите в файл settings.py ```nano task_manager/settings.py```
+
+В файле settings.py замените в DATABASES замените ```'ENGINE': 'django.db.backends.mysql'``` на ```'ENGINE': 'mysql.connector.django'```
 
 7. Примените миграции:
 
