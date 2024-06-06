@@ -22,7 +22,7 @@ Task Manager - это веб-приложение для управления з
 
 1. Клонируйте репозиторий на свой компьютер:
 
-```git clone https://github.com/IlyaKorol/diploma```
+```git clone https://github.com/IlyaKorol/tm.git```
 
 2. Перейдите в директорию проекта:
 
