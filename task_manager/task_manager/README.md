@@ -14,7 +14,7 @@ Task Manager - это веб-приложение для управления з
 
 - Gunicorn
 
-- Nginx
+- mysqlclient
 
 ## Установка и запуск
 
@@ -26,12 +26,12 @@ Task Manager - это веб-приложение для управления з
 
 2. Перейдите в директорию проекта:
 
-```cd tm``` -> ```cd task_manager``` -> ```cd task_manager``` 
+```cd tm/task_manager/task_manager```
 
 3. Установите виртуальное окружение:
 
 
-```python3 -m venv [имя_окружения]```, например ```python3 -m venv myenv``` 
+```python3 -m venv [имя_окружения]``` например python3 -m venv myenv 
 
 4. Активируйте виртуальное окружение:
 
@@ -53,7 +53,11 @@ Task Manager - это веб-приложение для управления з
 
 ```pip install mysqlclient```
 
-Примените миграции. Если после этого не удалось настроить базу данных, тогда следуйте следующем алгоритму:
+Примените миграции:
+
+```python manage.py migrate``` 
+
+Если после этого не удалось настроить базу данных, тогда следуйте следующему алгоритму:
 
 - ```pip install mysql-connector-python```
 
@@ -193,76 +197,18 @@ Task Manager - это веб-приложение для управления з
 
 ## Развертывание на хостинге
 
-### Установка Gunicorn и Nginx
+### Установка Gunicorn
 
 1. Установите Gunicorn:
 
 ```pip install gunicorn```
 
-2. Установите Nginx. На Ubuntu это можно сделать так:
 
-```sudo apt update```
+### Запуск Gunicorn
 
-```sudo apt install nginx```
+1. Запустите Gunicorn командой:
 
-### Настройка Gunicorn
-
-1. Создайте файл gunicorn.service в /etc/systemd/system/ со следующим содержимым:
-
-```
-[Unit]
-
-Description=gunicorn daemon
-
-After=network.target
-
-[Service]
-User=www-data
-Group=www-data
-WorkingDirectory=/path/to/your/project
-ExecStart=/path/to/your/venv/bin/gunicorn --workers 3 --bind unix:/path/to/your/project.sock task_manager.wsgi:application
-
-[Install]
-WantedBy=multi-user.target
-```
-
-2. Запустите и включите службу Gunicorn:
-
-```sudo systemctl start gunicorn```
-
-```sudo systemctl enable gunicorn```
-
-### Настройка Nginx
-
-1. Создайте конфигурационный файл для вашего сайта в /etc/nginx/sites-available/:
-
-```
-server {
-    listen 80;
-    server_name your_domain_or_IP;
-
-    location / {
-        include proxy_params;
-        proxy_pass http://unix:/path/to/your/project.sock;
-    }
-
-    location /static/ {
-        alias /path/to/your/project/static/;
-    }
-
-    location /media/ {
-        alias /path/to/your/project/media/;
-    }
-}
-```
-
-2. Создайте символическую ссылку в /etc/nginx/sites-enabled/:
-
-```sudo ln -s /etc/nginx/sites-available/your_site /etc/nginx/sites-enabled```
-
-3. Перезапустите Nginx:
-
-```sudo systemctl restart nginx```
+```gunicorn --workers=4 task_manager.wsgi:application```
 
 ## Инструкция пользователя
 
